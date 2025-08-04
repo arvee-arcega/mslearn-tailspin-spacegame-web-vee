@@ -24,15 +24,12 @@ steps:
     workingDir: 'Tailspin.SpaceGame.Web'
     verbose: true
 
+
 - script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
   displayName: 'Compile Sass assets'
 
-- task: Gulp@1
+- task: gulp@1
   displayName: 'Run gulp tasks'
-  inputs:
-    gulpFile: 'Tailspin.SpaceGame.Web/gulpfile.js'
-    targets: 'default'
-    workingDirectory: 'Tailspin.SpaceGame.Web'
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
@@ -61,5 +58,5 @@ steps:
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
- Name: 'Publish Artifact: drop'
+  displayName: 'Publish Artifact: drop'
   condition: succeeded()
