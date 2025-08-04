@@ -1,3 +1,8 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
 - '*'
 
@@ -8,59 +13,42 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-# Use .NET SDK 6.x
 - task: UseDotNet@2
   displayName: 'Use .NET SDK 6.x'
   inputs:
     packageType: sdk
     version: '6.x'
 
-# Install Node.js
 - task: NodeTool@0
   inputs:
     versionSpec: '16.x'
   displayName: 'Install Node.js'
 
-# Run npm install
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
     command: 'install'
-    workingDir: 'Tailspin.SpaceGame.Web'
     verbose: true
 
-# Compile Sass assets
-- script: 'Tailspin.SpaceGame.Web/node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
+- script: './node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
   displayName: 'Compile Sass assets'
 
-# Run gulp tasks
-- task: Gulp@1
+- task: gulp@1
   displayName: 'Run gulp tasks'
-  inputs:
-    gulpFile: 'Tailspin.SpaceGame.Web/gulpfile.js'
-    targets: 'default'
-    workingDirectory: 'Tailspin.SpaceGame.Web'
 
-# Write build info
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
-  workingDirectory: 'Tailspin.SpaceGame.Web/wwwroot'
+  workingDirectory: Tailspin.SpaceGame.Web/wwwroot
 
-# Diagnostic step to list files
-- script: 'ls -R Tailspin.SpaceGame.Web'
-  displayName: 'List project files'
-
-# Restore .NET project dependencies
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: 'Tailspin.SpaceGame.Web/**/*.csproj'
+    projects: 'Tailspin.SpaceGame.Web.csproj'
 
-# Build the project
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - Release'
   inputs:
     command: 'build'
     arguments: '--no-restore --configuration Release'
-    projects: 'Tailspin.SpaceGame.Web/**/*.csproj'
+    projects: 'Tailspin.SpaceGame.Web.csproj'
