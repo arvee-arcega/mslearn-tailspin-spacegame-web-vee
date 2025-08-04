@@ -1,3 +1,8 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
 - '*'
 
@@ -14,10 +19,16 @@ steps:
     packageType: sdk
     version: '6.x'
 
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
-    verbose: false
+    command: 'install'
+    verbose: true
 
 - script: './node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
   displayName: 'Compile Sass assets'
