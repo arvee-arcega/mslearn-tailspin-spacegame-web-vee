@@ -1,4 +1,4 @@
-
+[![Build Status](https://dev.azure.com/vee-devOps/vee-devOpsProj/_apis/build/status%2Farvee-arcega.mslearn-tailspin-spacegame-web-vee?branchName=refs%2Fpull%2F2%2Fmerge)](https://dev.azure.com/vee-devOps/vee-devOpsProj/_build/latest?definitionId=12&branchName=refs%2Fpull%2F2%2Fmerge)
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
@@ -63,3 +63,4 @@ Privacy information can be found at https://privacy.microsoft.com/en-us/
 
 Microsoft and any contributors reserve all other rights, whether under their respective copyrights, patents,
 or trademarks, whether by implication, estoppel or otherwise.
+
